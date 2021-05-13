@@ -6,10 +6,22 @@ function markerSize(magnitude) {
 
 function markerColor(depth) {
   if (depth < 10) {
-    color = "green";
+    color = "#008000";
+  }
+  else if (depth >= 10 && depth < 30) {
+    color = "#ADFF2F";
+  }
+  else if (depth >= 30 && depth < 50) {
+    color = "#FFFF00";
+  }
+  else if (depth >= 50 && depth < 70) {
+    color = "#FFA500";
+  }
+  else if (depth >= 70 && depth < 90) {
+    color = "#FFC0CB";
   }
   else {
-    color = "red";
+    color = "#FF0000";
   }
   return color;
 }
