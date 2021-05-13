@@ -1,5 +1,9 @@
 console.log("logic.js loaded");
 
+function markerSize(magnitude) {
+  return magnitude * 50000;
+}
+
 
 
 // Load in geojson data
@@ -21,7 +25,7 @@ d3.json(geoData).then(function(data) {
 var myMap = L.map("mapid", {
   center: [37.09, -95.71],
   zoom: 4,
-  layers: streetmap
+  layers: streetmap, earthquakes
 });
 
 
@@ -59,7 +63,7 @@ for (var i = 0; i < features.length; i ++) {
       fillOpacity: 0.75,
       color: "white",
       fillColor: "black",
-      radius: 100000
+      radius: markerSize(features[i].properties.mag)
       })
   );
 }
