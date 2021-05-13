@@ -10,7 +10,7 @@ function markerColor(depth) {
           depth > 50 ? "#FFA500" :
           depth > 30 ? "#FFFF00" :
           depth > 10 ? "#ADFF2F" :
-                       "#ADFF2F";
+                       "#008000";
 }
 
 
@@ -91,19 +91,23 @@ L.control.layers(baseMaps, overlayMaps, {
 
 var legend = L.control({position: 'bottomright'});
 
-legend.onAdd = function (map) {
+legend.onAdd = function () {
 
-  var div = L.DomUtil.create('div', 'info legend'),
-    grades = ['10', '10-30', '30-50', '50-70', '90'],
+  var div = L.DomUtil.create('div', 'info legend');
+    grades = [-10, 10, 30, 50, 70, 90];
     labels = [];
 
     for (var i = 0; i < grades.length; i ++) {
       div.innerHTML +=
-      '<i style="background;' + markerColor(grades[i] + 1) + '"></i>' +
-      grades[i] + (grades[i +1] ? '&ndash;' + grades[i +1] + '<br' : '+');
+        labels.push('<i style="background:' + markerColor(grades[i] + 1) + '"></i>' +
+      grades[i] + (grades[i +1] ? '&ndash;' + grades[i + 1] + '<br>' : '+'));
     }
+    console.log(labels);
+    div.innerHTML = labels.join('<br>');
     return div;
+    
 };
+
 legend.addTo(myMap);
 })
 
