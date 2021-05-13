@@ -5,25 +5,12 @@ function markerSize(magnitude) {
 }
 
 function markerColor(depth) {
-  if (depth < 10) {
-    color = "#008000";
-  }
-  else if (depth >= 10 && depth < 30) {
-    color = "#ADFF2F";
-  }
-  else if (depth >= 30 && depth < 50) {
-    color = "#FFFF00";
-  }
-  else if (depth >= 50 && depth < 70) {
-    color = "#FFA500";
-  }
-  else if (depth >= 70 && depth < 90) {
-    color = "#FFC0CB";
-  }
-  else {
-    color = "#FF0000";
-  }
-  return color;
+  return  depth > 90 ? "#FF0000" :
+          depth > 70 ? "#FFC0CB" :
+          depth > 50 ? "#FFA500" :
+          depth > 30 ? "#FFFF00" :
+          depth > 10 ? "#ADFF2F" :
+                       "#ADFF2F";
 }
 
 
