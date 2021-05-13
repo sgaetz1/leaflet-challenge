@@ -4,6 +4,16 @@ function markerSize(magnitude) {
   return magnitude * 50000;
 }
 
+function markerColor(depth) {
+  if (depth < 10) {
+    color = "green";
+  }
+  else {
+    color = "red";
+  }
+  return color;
+}
+
 
 
 // Load in geojson data
@@ -25,7 +35,7 @@ d3.json(geoData).then(function(data) {
 var myMap = L.map("mapid", {
   center: [37.09, -95.71],
   zoom: 4,
-  layers: streetmap, earthquakes
+  layers: streetmap
 });
 
 
@@ -61,8 +71,8 @@ for (var i = 0; i < features.length; i ++) {
     L.circle(coordinates, {
       stroke: false,
       fillOpacity: 0.75,
-      color: "white",
-      fillColor: "black",
+      color: "black",
+      fillColor: markerColor(features[i].geometry.coordinates[2]),
       radius: markerSize(features[i].properties.mag)
       })
   );
