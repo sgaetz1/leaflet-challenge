@@ -25,13 +25,6 @@ d3.json(geoData).then(function(data) {
   var features = data.features;
   console.log(features);
 
-  // Create map object
-  var myMap = L.map("mapid", {
-    center: [37.09, -95.71],
-    zoom: 4,
-    layers: streetmap
-  });
-
 
   // Adding tile layer
   var streetmap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
@@ -61,15 +54,19 @@ d3.json(geoData).then(function(data) {
     var coordinates = []
     coordinates.push(features[i].geometry.coordinates[1], features[i].geometry.coordinates[0]);
     
-    earthquakeMarkers.push(
-      L.circle(coordinates, {
+    
+    var circle =  L.circle(coordinates, {
         stroke: false,
         fillOpacity: 0.75,
         color: "#000000",
         fillColor: markerColor(features[i].geometry.coordinates[2]),
         radius: markerSize(features[i].properties.mag)
         })
-    );
+    
+    circle.bindPopup("<h3>" + features[i].properties.place + 
+      "</h3><hr><h4>Magnitude: " +  (features[i].properties.mag) + "</h4>");  
+      
+    earthquakeMarkers.push(circle);
   }
   console.log(earthquakeMarkers);
 
@@ -78,6 +75,13 @@ d3.json(geoData).then(function(data) {
   var overlayMaps = {
     "Earthquakes": earthquakes
   };
+
+  // Create map object
+  var myMap = L.map("mapid", {
+    center: [37.09, -95.71],
+    zoom: 4,
+    layers: [streetmap, earthquakes]
+  });
 
   L.control.layers(baseMaps, overlayMaps, {
     collapsed: false
@@ -95,7 +99,7 @@ d3.json(geoData).then(function(data) {
       for (var i = 0; i < grades.length; i ++) {
         div.innerHTML +=
           labels.push('<i style="background:' + markerColor(grades[i] + 1) + '"></i>' +
-        grades[i] + (grades[i +1] ? '&ndash;' + grades[i + 1] + '<br>' : '+'));
+          grades[i] + (grades[i +1] ? '&ndash;' + grades[i + 1] + '<br>' : '+'));
       }
       
       div.innerHTML = labels.join('');
@@ -104,12 +108,6 @@ d3.json(geoData).then(function(data) {
   };
 
   legend.addTo(myMap);
-  })
-
-
-function onEachFeature(feature, layer) {
-    layer.bindPopup("<h3>" + feature.properties.place + 
-    "</h3><hr><p>" +  new Date(feature.properties.time) + "</p>");  
-  }
+})
   
   
