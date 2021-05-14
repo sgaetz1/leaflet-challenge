@@ -1,7 +1,7 @@
 // make sure logic.js is loaded
 console.log("logic.js loaded");
 
-// set the circle size by the magnitude
+// function to set the circle size by the magnitude
 function markerSize(magnitude) {
   return magnitude * 50000;
 }
@@ -43,11 +43,23 @@ d3.json(geoData).then(function(data) {
     accessToken: API_KEY
   });
 
+  var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+	maxZoom: 17,
+	attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+  });
+
+  var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+  });
+
   var baseMaps = {
     "Street Map": streetmap,
-    "Dark Map": darkmap
+    "Dark Map": darkmap,
+    "Topographic": OpenTopoMap,
+    "World Imagery": Esri_WorldImagery
   };
 
+  // saving earthquake data to array
   var earthquakeMarkers = [];
 
   for (var i = 0; i < features.length; i ++) {
@@ -88,6 +100,7 @@ d3.json(geoData).then(function(data) {
   }).addTo(myMap);
 
 
+  // set up legend
   var legend = L.control({position: 'bottomright'});
 
   legend.onAdd = function () {
@@ -107,6 +120,7 @@ d3.json(geoData).then(function(data) {
       
   };
 
+  // add legend to the map
   legend.addTo(myMap);
 })
   
