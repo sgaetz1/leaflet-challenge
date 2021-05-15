@@ -27,6 +27,10 @@ d3.json(geoData).then(function(data) {
   var features = data.features;
   console.log(features);
 
+  d3.json(geoTectonic).then(function(data) {
+    var tectonicFeatures = data.features;
+
+
 
   // Adding tile layer
   var streetmap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
@@ -86,16 +90,21 @@ d3.json(geoData).then(function(data) {
   // saving tectonic plate data to array
   var tectonicLines = [];
 
-  for (var i = 0; i < tectonicPlates.length; i++) {
+  for (var i = 0; i < tectonicFeatures.length; i++) {
     var lineCoordinates = [];
-    lineCoordinates.push(tectonic[i].geometry.coordinates);
-  
-    var line = L.plyline(lineCoordinates, {
+    var coordinates = tectonicFeatures[i].geometry.coordinates;
+
+    for (var j = 0; j < coordinates.length; j++) {
+      lineCoordinates.push([coordinates[j][1], coordinates[j][0]]);
+    }
+    console.log(lineCoordinates);
+    var line = L.polyline(lineCoordinates, {
       color: "#FFD700"
     })
   
     tectonicLines.push(line);
   }
+  
 
   var earthquakes = L.layerGroup(earthquakeMarkers);
   var tectonicPlates = L.layerGroup(tectonicLines);
@@ -140,5 +149,5 @@ d3.json(geoData).then(function(data) {
   // add legend to the map
   legend.addTo(myMap);
 })
-  
+})  
   
