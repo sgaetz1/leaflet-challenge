@@ -19,6 +19,8 @@ function markerColor(depth) {
 // Load in geojson data
 var geoData = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
 
+var geoTectonic = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json";
+
 // Get data with d3
 d3.json(geoData).then(function(data) {
   
@@ -62,7 +64,7 @@ d3.json(geoData).then(function(data) {
   // saving earthquake data to array
   var earthquakeMarkers = [];
 
-  for (var i = 0; i < features.length; i ++) {
+  for (var i = 0; i < features.length; i++) {
     var coordinates = []
     coordinates.push(features[i].geometry.coordinates[1], features[i].geometry.coordinates[0]);
     
@@ -80,12 +82,27 @@ d3.json(geoData).then(function(data) {
       
     earthquakeMarkers.push(circle);
   }
-  console.log(earthquakeMarkers);
+  
+  // saving tectonic plate data to array
+  var tectonicLines = [];
+
+  for (var i = 0; i < tectonicPlates.length; i++) {
+    var lineCoordinates = [];
+    lineCoordinates.push(tectonic[i].geometry.coordinates);
+  
+    var line = L.plyline(lineCoordinates, {
+      color: "#FFD700"
+    })
+  
+    tectonicLines.push(line);
+  }
 
   var earthquakes = L.layerGroup(earthquakeMarkers);
+  var tectonicPlates = L.layerGroup(tectonicLines);
 
   var overlayMaps = {
-    "Earthquakes": earthquakes
+    "Earthquakes": earthquakes,
+    "Tectonic Plates": tectonicPlates
   };
 
   // Create map object
