@@ -17,8 +17,16 @@ function markerColor(depth) {
 }
 
 // Load in geojson data
-var geoData = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
+// past hour, all earthquakes
+// var geoData = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson";
+// past day, all earthquakes
+// var geoData = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
+// past week, all earthquakes
+// var geoData = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
+// past 30 days, all earthquakes
+var geoData = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson";
 
+// tectonic plates geojson
 var geoTectonic = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json";
 
 // Get data with d3
@@ -94,10 +102,11 @@ d3.json(geoData).then(function(data) {
     var lineCoordinates = [];
     var coordinates = tectonicFeatures[i].geometry.coordinates;
 
+    // switching the latitude and longitude
     for (var j = 0; j < coordinates.length; j++) {
       lineCoordinates.push([coordinates[j][1], coordinates[j][0]]);
     }
-    console.log(lineCoordinates);
+    // console.log(lineCoordinates);
     var line = L.polyline(lineCoordinates, {
       color: "#FFD700"
     })
@@ -117,7 +126,7 @@ d3.json(geoData).then(function(data) {
   // Create map object
   var myMap = L.map("mapid", {
     center: [37.09, -95.71],
-    zoom: 4,
+    zoom: 3,
     layers: [streetmap, earthquakes]
   });
 
