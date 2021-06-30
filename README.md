@@ -3,7 +3,9 @@ This is the repository for my leaflet homework. This project uses data from the 
 
 The map shows earthquake data from the past 30 days. Each circle on the map represents an earthquake and the size of the circle reflects the magnitude of the earthquake. The color of the circle indicates the depth of the earthquake, which is explained by the legend. If the user clicks on the circle, the place and the actual magnitude are displayed. The map's appearance can be changed from street map to dark map, topographic, or satellite map. The earthquake markers and tectonic plate lines can also be turned on and off. The JavaScript can be changed to load data from the past hour, past day, or past week.
 
-To view the map, do the following:
+![image](https://user-images.githubusercontent.com/14172820/123899335-9cf4a800-d92c-11eb-90fd-59b2b67b69e7.png)
+
+To use this repository, do the following:
 
 1. Clone the repository to your computer.
 1. In Visual Studio Code, navigate to the root directory of the repository.
